@@ -1,13 +1,18 @@
-import { CustomFilter, Hero, SearchBar } from '@/components/';
+import { CarCard, CustomFilter, Hero, SearchBar } from '@/components/';
+import { ICarProps } from '@/types';
+import { fetchCars } from '@/utils';
 
-export default function Home() {
+export default async function Home() {
+  const allCars: ICarProps[] = await fetchCars();
+  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+
   return (
     <main className="overflow-hidden">
       <Hero />
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
           <h2 className="text-4xl font-extrabold">Car catalogue</h2>
-          <p>Explore the cars you mught like</p>
+          <p>Explore the cars you might like</p>
         </div>
         <div className="home__filters">
           <SearchBar />
@@ -16,6 +21,20 @@ export default function Home() {
             <CustomFilter title="year" /> */}
           </div>
         </div>
+        {!isDataEmpty ? (
+          <div>
+            <div className="home__cars-wrapper">
+              {allCars.map((car) => (
+                <CarCard key={`${car}`} car={car} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="home__error-container">
+            <h2 className="text-black text-xl font-bold">No results</h2>
+            {/* <h2>{allCars?.message}</h2> */}
+          </div>
+        )}
       </div>
     </main>
   );
