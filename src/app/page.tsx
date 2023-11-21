@@ -1,9 +1,15 @@
 import { CarCard, CustomFilter, Hero, SearchBar } from '@/components/';
-import { ICarProps } from '@/types';
+import { ICarProps, IFilterProps } from '@/types';
 import { fetchCars } from '@/utils';
 
-export default async function Home() {
-  const allCars: ICarProps[] = await fetchCars();
+export default async function Home({ searchParams }: { searchParams: IFilterProps }) {
+  const allCars: ICarProps[] = await fetchCars({
+    manufacturer: searchParams.manufacturer || 'Volkswagen',
+    year: searchParams.year || 2022,
+    fuel: searchParams.fuel || '',
+    limit: searchParams.limit || 10,
+    model: searchParams.model || '',
+  });
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
   return (
@@ -25,7 +31,7 @@ export default async function Home() {
           <div>
             <div className="home__cars-wrapper">
               {allCars.map((car) => (
-                <CarCard key={`${car}`} car={car} />
+                <CarCard key={JSON.stringify(car)} car={car} />
               ))}
             </div>
           </div>

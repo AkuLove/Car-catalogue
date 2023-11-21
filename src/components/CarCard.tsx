@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ICarProps } from '@/types';
-import { CustomButton } from '.';
+import { CarDetails, CustomButton } from '.';
 import { calculateCarRent } from '@/utils';
 
 const CarCard = ({ car }: { car: ICarProps }) => {
@@ -36,7 +36,7 @@ const CarCard = ({ car }: { car: ICarProps }) => {
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">
             <Image src="/tire.svg" width={20} height={20} alt="tire" />
-            <p className="text-[14px]">{drive.toUpperCase()}</p>
+            <p className="text-[14px]">{(drive && drive.toUpperCase()) || '-'}</p>
           </div>
           <div className="flex flex-col items-center gap-2 justify-center">
             <Image src="/gas.svg" width={20} height={20} alt="gas" />
@@ -53,6 +53,7 @@ const CarCard = ({ car }: { car: ICarProps }) => {
           />
         </div>
       </div>
+      <CarDetails isOpen={isOpen} closeModal={() => setIsOpen(false)} car={car} />
     </div>
   );
 };
