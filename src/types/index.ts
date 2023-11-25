@@ -37,3 +37,18 @@ export interface IFilterProps {
   limit: number;
   model: string;
 }
+
+export interface IOptionProps {
+  title: string;
+  value: string;
+}
+
+export interface ICustomFilterProps {
+  title: string;
+  options: IOptionProps[];
+}
+
+export interface IShowMoreProps {
+  pageNumber: number;
+  isNext: boolean;
+}
